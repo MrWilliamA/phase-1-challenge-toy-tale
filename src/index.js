@@ -37,7 +37,7 @@ fetch('http://localhost:3000/toys')
   };
 
   
-  const createToyCard = async () => {
+  const createToyCard = async (name, imgUrl) => {
     let htmlString = '';
 
     for (const toy of toys) {
@@ -59,11 +59,7 @@ fetch('http://localhost:3000/toys')
       Accept: "application/json"
     },
     
-    body: JSON.stringify({
-      "name": "Jessie",
-      "image": "https://vignette.wikia.nocookie.net/p__/images/8/88/Jessie_Toy_Story_3.png/revision/latest?cb=20161023024601&path-prefix=protagonist",
-      "likes": 0
-    })
+    body: JSON.stringify({data})
   
    }
   
@@ -76,7 +72,7 @@ fetch('http://localhost:3000/toys')
     console.log("name is " + newToyName);
     console.log("Img is " + newToyImg);
   
-    return fetch(`http://localhost:3000/toys/${newToyName}`, configObj)
+    return fetch(`http://localhost:3000/toys`, configObj)
     .then( response => response.json() ) //change on this line
     .then( data => {    
       
@@ -84,11 +80,10 @@ fetch('http://localhost:3000/toys')
       data.image = newToyImg;
       console.log(data.name);
       
-     // createToyCard();
+      createToyCard(newToyName, newToyImg);
     })
-    .catch(function(error) {     
-        console.log("error");
-           
+    .catch(error => {     
+      console.error('Error:', error);
   
       });    
   
