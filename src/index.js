@@ -12,8 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
       toyFormContainer.style.display = "none";
     }
   });
-
-
   
 fetch('http://localhost:3000/toys')
 .then(function(response) {
@@ -29,9 +27,9 @@ fetch('http://localhost:3000/toys')
   const createCardHtml = (name, imgUrl, likes) => {
     
     let htmlString = `<div class="card">
-    <h2>${{name}}</h2>
-    <img src="${{imgUrl}}" class="toy-avatar" />
-    <p>${{likes}} Likes </p>
+    <h2>${name}</h2>
+    <img src="${imgUrl}" class="toy-avatar" />
+    <p>${likes} Likes </p>
     <button class="like-btn" id="[toy_id]">Like <3</button>
   </div>`;
  
@@ -40,70 +38,75 @@ fetch('http://localhost:3000/toys')
 
   
   const createToyCard = async () => {
-    // const toyName = toys.name;
-     console.log(toys);
     let htmlString = '';
 
-    for (const toy in toys) {
-      console.log(toy.name)
-      htmlString = createCardHtml(toy.name, toy.image, toy.likes);
+    for (const toy of toys) {
       
-      container.innerHTML = htmlString;
+      htmlString = createCardHtml(toy.name, toy.image, toy.likes);
+      container.innerHTML += htmlString;
     }
-
-
-    // toys.map(function(toy) {
-    //   htmlString = createCardHtml(toy.name, toy.image, toy.likes);
-    //   console.log(htmlString)
-    //   container.innerHTML = htmlString;
-    // })
-
 
   };
 
   createToyCard();
 
-});
-});
 
-
-
-
-  // let div = document.createElement('div');
-  // let name = document.createElement('h2');
-  // let img = document.createElement('img');
-  // let paragraph = document.createElement('p');
-  // let btn = document.createElement('button');
-
-//   toys.map(function(toy) {
+  let configObj = {
+    method: "POST",
+    headers: 
+    {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    
+    body: JSON.stringify({
+      "name": "Jessie",
+      "image": "https://vignette.wikia.nocookie.net/p__/images/8/88/Jessie_Toy_Story_3.png/revision/latest?cb=20161023024601&path-prefix=protagonist",
+      "likes": 0
+    })
   
-//     container.append(toyCard);
-//     //div.innerHTML = `${toy.div}`;
-//    // name.innerHTML = `${toy.name}`;
-//     container.innerHTML = div;
-//   });
-
-// } )
-
-// function getToys(json) {
-// 
-  // const container = document.getElementById('toy-collection');
-// 
-  // json.forEach(showToys);
-// 
-  // for(const card in json) {
-    // 
-    // container.innerHTML = "test";
-    // 
-  // }
+   }
   
-  //}
+   const createToy = document.querySelector('.add-toy-form input.submit');
+   createToy.addEventListener("click", (e) => {
+    e.preventDefault();
+    
+    const newToyName = document.querySelectorAll('.input-text')[0].value;
+    const newToyImg = document.querySelectorAll('.input-text')[1].value;
+    console.log("name is " + newToyName);
+    console.log("Img is " + newToyImg);
+  
+    return fetch(`http://localhost:3000/toys/${newToyName}`, configObj)
+    .then( response => response.json() ) //change on this line
+    .then( data => {    
+      
+      data.name = newToyName;
+      data.image = newToyImg;
+      console.log(data.name);
+      
+     // createToyCard();
+    })
+    .catch(function(error) {     
+        console.log("error");
+           
+  
+      });    
+  
+  
+  
+  
+  });
 
 
-// function showToys(json) {
-  // const container = document.getElementById('toy-collection');
 
-  // container.innerHTML = "test";
-// }
+
+
+});
+
+
+
+
+});
+
 
 
