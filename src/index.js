@@ -14,32 +14,76 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
+  
 fetch('http://localhost:3000/toys')
 .then(function(response) {
-  console.log(response);
   return response.json();
 
 })
 .then( (json) => { 
 
   let toys = json;
-  const container = document.getElementById('toy-collection');
 
-  toys.map(function(toy) {
-    container.innerHTML = "test";
+  let container = document.getElementById('toy-collection');
 
-    let div = document.createElement('div');
-    let name = document.createElement('h2');
-    let img = document.createElement('img');
-    let paragraph = document.createElement('p');
-    let btn = document.createElement('button');
-   
-    div.innerHTML = `${toy.div}`;
-    name.innerHTML = `${toy.name}`;
+  const createCardHtml = (name, imgUrl, likes) => {
+    
+    let htmlString = `<div class="card">
+    <h2>${{name}}</h2>
+    <img src="${{imgUrl}}" class="toy-avatar" />
+    <p>${{likes}} Likes </p>
+    <button class="like-btn" id="[toy_id]">Like <3</button>
+  </div>`;
+ 
+    return htmlString;
+  };
 
-  });
+  
+  const createToyCard = async () => {
+    // const toyName = toys.name;
+     console.log(toys);
+    let htmlString = '';
 
-} )
+    for (const toy in toys) {
+      console.log(toy.name)
+      htmlString = createCardHtml(toy.name, toy.image, toy.likes);
+      
+      container.innerHTML = htmlString;
+    }
+
+
+    // toys.map(function(toy) {
+    //   htmlString = createCardHtml(toy.name, toy.image, toy.likes);
+    //   console.log(htmlString)
+    //   container.innerHTML = htmlString;
+    // })
+
+
+  };
+
+  createToyCard();
+
+});
+});
+
+
+
+
+  // let div = document.createElement('div');
+  // let name = document.createElement('h2');
+  // let img = document.createElement('img');
+  // let paragraph = document.createElement('p');
+  // let btn = document.createElement('button');
+
+//   toys.map(function(toy) {
+  
+//     container.append(toyCard);
+//     //div.innerHTML = `${toy.div}`;
+//    // name.innerHTML = `${toy.name}`;
+//     container.innerHTML = div;
+//   });
+
+// } )
 
 // function getToys(json) {
 // 
@@ -63,5 +107,3 @@ fetch('http://localhost:3000/toys')
 // }
 
 
-
-});
