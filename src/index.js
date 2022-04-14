@@ -51,24 +51,31 @@ fetch('http://localhost:3000/toys')
   createToyCard();
 
 
-  let configObj = {
-    method: "POST",
-    headers: 
-    {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    
-    body: JSON.stringify({data})
-  
-   }
+
   
    const createToy = document.querySelector('.add-toy-form input.submit');
    createToy.addEventListener("click", (e) => {
     e.preventDefault();
-    
+
     const newToyName = document.querySelectorAll('.input-text')[0].value;
     const newToyImg = document.querySelectorAll('.input-text')[1].value;
+    
+    let configObj = {
+      method: "POST",
+      headers: 
+      {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      
+      body: JSON.stringify({
+        name: newToyName,
+        image: newToyImg
+      })
+    
+     }
+    
+   
     console.log("name is " + newToyName);
     console.log("Img is " + newToyImg);
   
